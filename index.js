@@ -1,36 +1,67 @@
-const Person = require('./models/person')
-const Post = require('./models/post')
+const express = require('express')
+const app = express()
 const PersonService = require('./services/person-service')
 const PostService = require('./services/post-service')
+const bodyParser = require('body-parser')
 
-console.log('Hello World!')
+app.set('view engine', 'pug')
+app.use(bodyParser.json())
 
-async function main() {
-    console.log('Inside async fxn')
+app.listen(3000, () => {
+  console.log('did i work?')
+})
 
-    const mert = new Person('Mert')
-    const armagan = new Person('Armagan')
-  
-    const post1 = new Post('caption 1', 'image 1')
-    const post2 = new Post('caption 2', 'image 2')
-    mert.addPost(post1)
-    armagan.addPost(post2)
-    post1.report()
-    post2.report()
-  
-    await PersonService.add(mert)
-    await PersonService.add(armagan)
-    const people = await PersonService.findAll()
-  
-    console.log(people)
-  
-    await PostService.add(post1)
-    await PostService.add(post2)
-  
-    const postsFromDb = await PostService.findAll();
+app.get('/', (req, res) => {
+  // res.send(`${__dirname}/views/index.pug`)
+  // res.sendFile(`${__dirname}/index.html`)
+  // to send multiple pug templates use the render function
+  res.render(`${__dirname}/views/index.pug`)
+  // res.render('index')
+})
 
-    console.log('there are', postsFromDb.length, 'posts in the db')
-    postsFromDb[0].report()
+app.get('/posts/all', async (req, res) => {
+
+  const posts = await PostService.findAll();
+  res.send(posts)
+  // res.render('posts', {posts})
+})
+
+app.get('/people/all', async (req, res) => {
+  const people = await PersonService.findAll();
+  res.send(people)
+  // res.render('people'), {people}
+})
+
+app.get('/person/:id', async (req, res) => {
+  // req.params.id
+  // const person = await PersonService.find(req.params.id)
+  const person  = {
+    "name": "Mert",
+    "posts": [
+        "caption1"
+    ],
+    "id": 0
   }
-  
-  main()
+  res.send(person)
+  // res.render('person', {person})
+})
+
+app.get('/post/:id', async (req, res) => {
+  // req.params.id
+  // const person = await PersonService.find(req.params.id)
+  const post  = {
+    "caption": "caption1",
+    "image": "image1",
+    "owner": "Mert",
+    "id": 0
+  }
+  res.send(post)
+  // res.render('post', {post})
+})
+
+app.post('/person/', async (req, res) => {
+  const person = PersonService.add(req.body)
+  res.send(person)
+  console.log(req.body)
+})
+

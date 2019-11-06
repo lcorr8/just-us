@@ -1,16 +1,27 @@
 module.exports = class Person {
-    constructor(name,posts = [], id) {
-        this.name = name
-        this.posts = posts
-        this.id = id
-    }
-    addPost(post) {
-        this.posts.push(post);
-        post.owner = this;
-        console.log(`Adding post by ${this.name}`)
+    constructor(name,posts = []) {
+        this.name = name;
+        this.posts = posts;
+        this.id = id();
     }
 
-    static create({name, posts, id}) {
-        return new Person(name, posts, id);
+    addPost(post) {
+        this.posts.push(post.caption)
+        post.owner = this.name
     }
-}
+
+    static create(name, posts) {
+        return new Person(name, posts);
+    }
+};
+
+function makeCounter() {
+    let i = 0;
+    return function () {
+      return i++;
+    };
+  }
+  
+  const id = makeCounter();
+
+  
