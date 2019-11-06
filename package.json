@@ -1,0 +1,27 @@
+{
+  "name": "just-us",
+  "version": "1.0.0",
+  "description": "instagram-clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcorr8/just-us.git"
+  },
+  "author": "lcorr8",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lcorr8/just-us/issues"
+  },
+  "homepage": "https://github.com/lcorr8/just-us#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "flatted": "^2.0.1",
+    "nodemon": "^1.19.4",
+    "pug": "^2.0.4"
+  }
+}
