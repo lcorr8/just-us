@@ -1,0 +1,7 @@
+extend layout
+
+block content
+    h1 All the posts ever
+    h2 Here you can find all of the posts in the db
+    each post in posts
+        h3 #{post.id}. #{post.image} by #{post.owner.name}
