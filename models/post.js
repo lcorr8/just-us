@@ -1,28 +1,33 @@
+const mongoose= require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 const Person = require('./person')
 
-module.exports = class Post {
-    constructor(caption,image, owner) {
-        this.caption = caption;
-        this.image = image;
-        this.owner = owner;
-        this.id = id();
+const PostSchema = mongoose.Schema({
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Person',
+        required: true
+    },
+    caption: {
+        type: String,
+        maxlength: 25
+    },
+    image: {
+        // data: Buffer,
+        // contentType: String
+        type: String,
+        required: true
+    },
+    permissionLevel: {
+        type: String,
+        required: true
+        // holiday
+        // insta
+        // everyday
     }
+})
 
-    static create(caption,image, owner) {
-        return new Post(caption,image, owner)
-    }
+// TODO: get postID to be able to be id, so base service fxn can be reused to delete
+PostSchema.plugin(AutoIncrement, {inc_field: 'postId'})
 
-    report() {
-        console.log(`this post belongs to owner: ${this.owner}, the caption says: ${this.caption}`)
-    }
-}
-function makeCounter() {
-    let i = 0;
-    return function () {
-      return i++;
-    };
-  }
-  
-  const id = makeCounter();
-
-  
+module.exports = mongoose.model('Post', PostSchema)

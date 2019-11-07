@@ -3,7 +3,7 @@ const PostModel = require('../models/post')
 
 class PostService extends BaseService {
     constructor() {
-        super(PostModel, `${__dirname}/../post-database.json`)
+        super(PostModel)
     }
 }
 

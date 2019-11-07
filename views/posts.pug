@@ -1,7 +1,26 @@
-extend layout
+extends layout
 
 block content
-    h1 All the posts ever
-    h2 Here you can find all of the posts in the db
-    each post in posts
-        h3 #{post.id}. #{post.image} by #{post.owner.name}
+    h1 Hello!
+    if posts.length
+        p Here are the #{posts.length} posts:
+        table
+            thead
+                td PostId
+                td Image
+                td Caption
+                td Owner
+                td Permission Level
+            each post in posts
+                tr
+                    td #{post.postId}
+                    td #{post.image}
+                    td #{post.caption}
+                    td #{post.owner.name}
+                    td #{post.permissionLevel}
+
+        pre= JSON.stringify(posts, null, 2)
+    else
+        p There's no one yet :(
+    script.
+        console.log(!{JSON.stringify(posts)})

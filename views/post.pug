@@ -1,8 +1,11 @@
 extends layout
 
 block content
-    h1 Post
-    h2 Caption: #{post.caption}
-    h2 id: #{post.id}
-    h3 image: #{post.image}
-    h3 owner: #{post.owner}
+    if post
+        h1 Post
+        p Here are the full post details:
+        pre= JSON.stringify(post, null, 2)
+    else
+        h1 There's no such post!
+    script.
+        console.log(!{JSON.stringify(post)})

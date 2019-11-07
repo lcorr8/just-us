@@ -1,27 +1,30 @@
-module.exports = class Person {
-    constructor(name,posts = []) {
-        this.name = name;
-        this.posts = posts;
-        this.id = id();
-    }
+const mongoose = require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
-    addPost(post) {
-        this.posts.push(post.caption)
-        post.owner = this.name
-    }
+//define schema
+const PersonSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        default: 0
+    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Person'
+    }],
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }]
+})
 
-    static create(name, posts) {
-        return new Person(name, posts);
-    }
-};
+PersonSchema.plugin(AutoIncrement, {inc_field: 'id'})
 
-function makeCounter() {
-    let i = 0;
-    return function () {
-      return i++;
-    };
-  }
-  
-  const id = makeCounter();
 
-  
+//define model
+module.exports = mongoose.model('Person', PersonSchema)
+
+// define connection in database-connection.js
